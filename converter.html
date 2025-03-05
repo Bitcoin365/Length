@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>אריכות</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-size: large;
+            }
+            
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                width: 100vw;
+                background-color: rgb(74, 162, 74);
+                background-image: url("download.svg");
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+
+            .convert {
+                padding: 3em;
+                background: white;
+                width: 100%;
+                max-width: 800px;
+                border-radius: 15px;
+                box-shadow: 0px 4px 10px rgb(0, 0, 0);
+            }
+
+            h2 {
+                text-align: center;
+                color: #266a28;
+                padding-bottom: 1em;
+                text-transform: uppercase;
+                font-size: 30px;
+                font-family: 'Courier New', Courier, monospace;
+            }
+
+            .group {
+                display: flex;
+                gap: 16px;
+            }
+            .shita {
+                width: 100%;
+            }
+
+            input,
+            select {
+                width: 50%;
+                padding: 15px;
+                margin: 10px;
+                border: 2px solid rgb(148, 148, 148);
+                border-radius: 8px;
+                outline: none;
+                font-weight: 550;
+            }
+
+            select {
+                cursor: pointer;
+                appearance: none;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 0.7rem center;
+                background-size: 1em;
+                padding-right: 2rem;
+            }
+
+            input:focus,
+            select:focus {
+                outline: none;
+                border: 2px solid #30a133;
+                box-shadow: 0 0 7px #9da39d;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="convert">
+          <h2>Length Converter</h2>
+          <div class="group">
+            <select class="shita">
+                <option>Chazon Ish</option>
+                <option>R' Chaim Naeh</option>
+            </select>
+          </div>
+          <div class="group">
+            <input type="number" id="amount1" value="1">
+            <select id="currency1">
+                <option value="Tefach">Tefach</option>
+                <option value="Amah">Amah</option>
+            </select>
+          </div>
+          <div class="group">
+            <input type="number" id="amount1" value="9.62">
+            <select id="currency2">
+                <option value="CM">CM</option>
+                <option value="Inch">Inch</option>
+            </select>
+          </div>
+        </div>
+        <script>
+            const EXCHANGE_RATES = {
+                "Tefach": {
+                    "CM": 9.62,
+                    "Inch": 3.788,
+                },
+                "Amah": {
+                    "Inch": 22.728,
+                    "CM": 57.72,
+                },
+                "CM": {
+                    "Tefach": 0.103950103950104,
+                    "Amah": 0.0173250173250173,
+                },
+                "Inch": {
+                    "Tefach": 0.2639915522703273,
+                    "Amah": 0.0439985920450546,
+                }
+            };
+    
+            const amount1 = document.getElementById('amount1');
+            const amount2 = document.getElementById('amount2');
+            const currency1 = document.getElementById('currency1');
+            const currency2 = document.getElementById('currency2');
+    
+            function convert1to2() {
+                const rate = EXCHANGE_RATES[currency1.value][currency2.value];
+                const result = parseFloat(amount1.value) * rate;
+                amount2.value = result.toFixed(2);
+            }
+    
+            function convert2to1() {
+                const rate = EXCHANGE_RATES[currency2.value][currency1.value];
+                const result = parseFloat(amount2.value) * rate;
+                amount1.value = result.toFixed(2);
+            }
+    
+            // Event listeners
+            amount1.addEventListener('input', convert1to2);
+            amount2.addEventListener('input', convert2to1);
+            currency1.addEventListener('change', convert1to2);
+            currency2.addEventListener('change', convert1to2);
+        </script>
+    </body>
+</html>
